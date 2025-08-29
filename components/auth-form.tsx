@@ -49,35 +49,35 @@ export default function AuthForm({ mode, onSubmit, isLoading, error }: AuthFormP
   const isSignup = mode === "signup"
 
   return (
-    <div className="min-h-screen bg-envesto-gray-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen bg-envesto-gray-50 dark:bg-neutral-800 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md dark:bg-neutral-900 dark:border-neutral-700">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-envesto-navy">EnVesto</CardTitle>
-          <CardDescription className="text-envesto-gray-600">
+          <CardTitle className="text-3xl font-bold text-envesto-navy dark:text-neutral-100">EnVesto</CardTitle>
+          <CardDescription className="text-envesto-gray-600 dark:text-neutral-300">
             Earn and Invest - {isSignup ? "Create your account" : "Welcome back"}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={errors.email ? "border-red-500" : ""}
-              />
+                          <Input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={`${errors.email ? "border-red-500" : ""} dark:bg-neutral-900 dark:text-neutral-100 dark:border-neutral-700`}
+            />
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
 
             <div>
-              <Input
-                type="password"
-                placeholder={isSignup ? "Password (min 8 characters)" : "Password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={errors.password ? "border-red-500" : ""}
-              />
+                          <Input
+              type="password"
+              placeholder={isSignup ? "Password (min 8 characters)" : "Password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`${errors.password ? "border-red-500" : ""} dark:bg-neutral-900 dark:text-neutral-100 dark:border-neutral-700`}
+            />
               {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
             </div>
 
