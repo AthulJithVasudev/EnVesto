@@ -12,7 +12,7 @@ export default function AIPage() {
   const handleBackToHome = () => router.push("/home")
 
   return (
-    <div className="min-h-screen bg-envesto-gray-50 flex flex-col">
+    <div className="min-h-screen bg-envesto-gray-50 dark:bg-neutral-800 flex flex-col">
       <Header />
 
       <PageTransition>

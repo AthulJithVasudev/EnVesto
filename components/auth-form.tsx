@@ -97,7 +97,7 @@ export default function AuthForm({ mode, onSubmit, isLoading, error }: AuthFormP
           </form>
 
           <div className="text-center mt-4">
-            <p className="text-envesto-gray-600">
+            <p className="text-envesto-gray-600 dark:text-neutral-300">
               {isSignup ? "Already have an account? " : "Don't have an account? "}
               <Link href={isSignup ? "/login" : "/signup"} className="text-envesto-teal hover:underline">
                 {isSignup ? "Login here" : "Sign up here"}
