@@ -1,0 +1,165 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/auth-context"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import Header from "@/components/header"
+import ExpenseTable from "@/components/expense-table"
+import { ArrowLeft, TrendingDown, TrendingUp, Percent } from "lucide-react"
+import { PageTransition } from "@/components/page-transition"
+import { motion } from "framer-motion"
+
+const staggerDelay = 0.1
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: 10 }
+}
+
+export default function ExpensePage() {
+  const [totalExpense, setTotalExpense] = useState<number | null>(null)
+  const [showSummary, setShowSummary] = useState(false)
+  const { user, userData } = useAuth()
+  const router = useRouter()
+
+  // Use user's actual income or fallback to 20000
+  const avgMonthlyIncome = userData?.avgMonthlyIncome || 20000
+
+  const handleCalculate = (total: number) => {
+    setTotalExpense(total)
+    setShowSummary(true)
+  }
+
+  const expensePercentage = totalExpense ? (totalExpense / avgMonthlyIncome) * 100 : 0
+  const remainingMoney = avgMonthlyIncome - (totalExpense || 0)
+  const isNegative = remainingMoney < 0
+
+  const handleBackToHome = () => {
+    router.push("/home")
+  }
+
+  return (
+    <div className="min-h-screen bg-envesto-gray-50">
+      <Header />
+      <PageTransition>
+        <main className="container mx-auto px-4 py-8 max-w-7xl">
+          {/* Page Header */}
+          <motion.div 
+            initial={fadeInUp.initial}
+            animate={fadeInUp.animate}
+            transition={{ delay: staggerDelay }}
+            className="flex items-center gap-4 mb-8"
+          >
+            <Button variant="ghost" onClick={handleBackToHome} className="text-envesto-gray-600 hover:text-envesto-navy">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Home
+            </Button>
+            <h1 className="text-3xl font-bold text-envesto-navy">Expense Calculator</h1>
+          </motion.div>
+
+          {/* Content Area */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Expense Table Column */}
+            <motion.div 
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: staggerDelay * 2 }}
+              className="lg:col-span-2"
+            >
+              <ExpenseTable onCalculate={handleCalculate} />
+            </motion.div>
+
+            {/* Summary Column */}
+            <motion.div
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={{ delay: staggerDelay * 3 }}
+              className="space-y-4"
+            >
+              {showSummary ? (
+                <motion.div
+                  initial={fadeInUp.initial}
+                  animate={fadeInUp.animate}
+                  transition={{ delay: staggerDelay * 4 }}
+                >
+                  <Card className="sticky top-4 border-envesto-gray-200">
+                    <CardHeader>
+                      <CardTitle className="text-envesto-navy">Expense Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      <div className="space-y-2">
+                        <p className="text-sm text-envesto-gray-600">Total Expenses</p>
+                        <p className="text-2xl font-bold text-envesto-navy">₹{totalExpense?.toFixed(2) || '0.00'}</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <p className="text-sm text-envesto-gray-600">Monthly Income</p>
+                        <p className="text-2xl font-bold text-envesto-teal">₹{avgMonthlyIncome.toFixed(2)}</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <p className="text-sm text-envesto-gray-600">Expense Percentage</p>
+                        <div className="flex items-center gap-2">
+                          <Percent className="h-5 w-5 text-envesto-gray-400" />
+                          <p className="text-xl font-bold text-envesto-navy">{expensePercentage.toFixed(1)}%</p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <p className="text-sm text-envesto-gray-600">Remaining Amount</p>
+                        <div className="flex items-center gap-2">
+                          {isNegative ? (
+                            <TrendingDown className="h-5 w-5 text-red-500" />
+                          ) : (
+                            <TrendingUp className="h-5 w-5 text-green-500" />
+                          )}
+                          <p className={`text-xl font-bold ${isNegative ? 'text-red-500' : 'text-green-500'}`}>
+                            ₹{Math.abs(remainingMoney).toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Financial Advice */}
+                      <div className="p-4 bg-envesto-teal/10 rounded-lg border border-envesto-teal/20">
+                        <h4 className="font-semibold text-envesto-navy mb-2">💡 Financial Tip</h4>
+                        <p className="text-sm text-envesto-gray-700 leading-relaxed">
+                          {expensePercentage > 80
+                            ? "Consider reducing expenses or finding additional income sources."
+                            : expensePercentage > 50
+                              ? "You're spending a significant portion of your income. Consider budgeting."
+                              : "Great job! You're maintaining healthy spending habits."}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={fadeInUp.initial}
+                  animate={fadeInUp.animate}
+                  transition={{ delay: staggerDelay * 4 }}
+                >
+                  <Card className="sticky top-4 border-envesto-gray-200">
+                    <CardHeader>
+                      <CardTitle className="text-envesto-navy">Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-center py-8 text-envesto-gray-500">
+                        <TrendingUp className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                        <p className="leading-relaxed">
+                          Add expense items and click "Calculate Total" to see your summary.
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+            </motion.div>
+          </div>
+        </main>
+      </PageTransition>
+    </div>
+  )
+}

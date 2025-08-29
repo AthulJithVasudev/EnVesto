@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <path fill="#FFD700" d="M100,400 L200,400 L200,100 L300,100 L300,400 L400,400 L250,50 z"/>
+        <path fill="#FFD700" d="M150,300 L450,300 L450,350 L150,350 z"/>
+        <path fill="#FFD700" d="M350,200 L450,200 L400,100 z"/>
+    </g>
+</svg>
