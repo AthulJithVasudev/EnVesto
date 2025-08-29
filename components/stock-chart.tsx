@@ -46,7 +46,8 @@ export default function StockChart({ symbol }: { symbol: string }) {
   }, [symbol])
 
   const priceColor = useMemo(() => {
-    if (currentPrice == null || prevPrice == null) return "text-envesto-navy dark:text-neutral-100"
+    if (currentPrice == null || prevPrice == null)
+      return "text-envesto-navy dark:text-neutral-100"
     if (currentPrice > prevPrice) return "text-green-600"
     if (currentPrice < prevPrice) return "text-red-600"
     return "text-envesto-navy dark:text-neutral-100"
@@ -55,31 +56,68 @@ export default function StockChart({ symbol }: { symbol: string }) {
   return (
     <Card className="border-envesto-gray-200 dark:border-neutral-700 dark:bg-neutral-900">
       <CardHeader className="pb-2">
-        <CardTitle className="text-envesto-navy dark:text-neutral-100">{symbol} Price Chart</CardTitle>
+        <CardTitle className="text-envesto-navy dark:text-neutral-100">
+          {symbol} Price Chart
+        </CardTitle>
       </CardHeader>
       <CardContent>
-        {error && <div className="text-red-600 dark:text-red-400 mb-3">{error}</div>}
+        {error && (
+          <div className="text-red-600 dark:text-red-400 mb-3">{error}</div>
+        )}
         <div className="mb-4">
           {isLoading ? (
-            <div className="text-envesto-gray-600 dark:text-neutral-400">Loading price…</div>
+            <div className="text-envesto-gray-600 dark:text-neutral-400">
+              Loading price…
+            </div>
           ) : (
             <div>
               <div className={`text-3xl font-semibold ${priceColor}`}>
-                {currentPrice != null ? currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "--"}
+                {currentPrice != null
+                  ? currentPrice.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })
+                  : "--"}
               </div>
               <div className="text-sm text-envesto-gray-600 dark:text-neutral-400 mt-1">
-                {lastUpdated ? `Last updated: ${lastUpdated}` : ''}
+                {lastUpdated ? `Last updated: ${lastUpdated}` : ""}
               </div>
             </div>
           )}
         </div>
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <LineChart
+              data={data}
+              margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+            >
               <XAxis dataKey="time" hide tick={false} />
-              <YAxis domain={["auto", "auto"]} tickFormatter={(v) => String(v)} width={50} />
-              <Tooltip formatter={(value) => (typeof value === 'number' ? value.toFixed(2) : value)} />
-              <Line type="monotone" dataKey="price" stroke="#2563eb" strokeWidth={2} dot={false} isAnimationActive={!isLoading} />
+              <YAxis
+                domain={["auto", "auto"]}
+                tickFormatter={(v) => String(v)}
+                width={50}
+              />
+              <Tooltip
+                formatter={(value) =>
+                  typeof value === "number" ? value.toFixed(2) : value
+                }
+                contentStyle={{
+                  backgroundColor: "var(--tooltip-bg)",
+                  borderRadius: "0.5rem",
+                  border: "1px solid var(--tooltip-border)",
+                  color: "var(--tooltip-text)",
+                }}
+                itemStyle={{ color: "var(--tooltip-text)" }}
+                labelStyle={{ color: "var(--tooltip-text)" }}
+              />
+              <Line
+                type="monotone"
+                dataKey="price"
+                stroke="#16a34a" // green-600 line
+                strokeWidth={2}
+                dot={false}
+                isAnimationActive={!isLoading}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -87,5 +125,3 @@ export default function StockChart({ symbol }: { symbol: string }) {
     </Card>
   )
 }
-
-

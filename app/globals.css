@@ -162,3 +162,14 @@
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+:root {
+  --tooltip-bg: #ffffff;
+  --tooltip-border: #e5e7eb; /* gray-200 */
+  --tooltip-text: #111827;   /* gray-900 */
+}
+
+.dark {
+  --tooltip-bg: #1f2937;     /* gray-800 */
+  --tooltip-border: #374151; /* gray-700 */
+  --tooltip-text: #f9fafb;   /* gray-50 */
+}
