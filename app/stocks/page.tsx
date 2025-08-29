@@ -5,7 +5,15 @@ import { useRouter } from "next/navigation"
 import Header from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import StockChart from "@/components/stock-chart"
 
 export default function StocksPage() {
@@ -32,14 +40,20 @@ export default function StocksPage() {
           </Button>
           <div />
         </div>
-        <h1 className="text-2xl font-semibold text-envesto-navy dark:text-neutral-100 text-center mb-6">Live Stock Prices</h1>
+        <h1 className="text-2xl font-semibold text-envesto-navy dark:text-neutral-100 text-center mb-6">
+          Live Stock Prices
+        </h1>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center mb-6">
           <Select value={symbolInput} onValueChange={(v) => setSymbolInput(v)}>
-            <SelectTrigger>
+            <SelectTrigger
+              className="border border-envesto-teal/50 dark:border-neutral-700 rounded-md
+                         hover:border-envesto-green dark:hover:border-envesto-green
+                         focus:outline-none focus:ring-2 focus:ring-envesto-green"
+            >
               <SelectValue placeholder="Popular symbols" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="dark:border dark:border-neutral-700 dark:bg-neutral-900">
               <SelectGroup>
                 <SelectLabel>Popular</SelectLabel>
                 <SelectItem value="AAPL">AAPL</SelectItem>
@@ -57,10 +71,15 @@ export default function StocksPage() {
             placeholder="Enter symbol e.g. AAPL, TSLA"
             className="max-w-xs bg-white dark:bg-neutral-900 dark:text-neutral-100"
             onKeyDown={(e) => {
-              if (e.key === 'Enter') submit()
+              if (e.key === "Enter") submit()
             }}
           />
-          <Button onClick={submit} className="bg-envesto-teal hover:bg-envesto-teal/90 text-white">Update</Button>
+          <Button
+            onClick={submit}
+            className="bg-envesto-teal hover:bg-envesto-teal/90 text-white"
+          >
+            Update
+          </Button>
         </div>
 
         <StockChart symbol={symbol} />
@@ -68,5 +87,3 @@ export default function StocksPage() {
     </div>
   )
 }
-
-
