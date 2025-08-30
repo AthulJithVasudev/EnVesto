@@ -5,6 +5,7 @@ import { AuthProvider } from "@/contexts/auth-context"
 import "./globals.css"
 import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,16 +18,16 @@ export const metadata: Metadata = {
   description: "Financial planning for gig workers and variable income earners",
   generator: "v0.app",
   icons: {
-    icon: '/logo_1.svg',
-    apple: '/logo_1.svg',
+    icon: "/logo_1.svg",
+    apple: "/logo_1.svg",
   },
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable} antialiased`}>
@@ -36,6 +37,7 @@ export default function RootLayout({
             <Footer />
           </AuthProvider>
         </ThemeProvider>
+        <Toaster richColors /> {/* ✅ Toast container */}
       </body>
     </html>
   )
