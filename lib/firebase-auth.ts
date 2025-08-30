@@ -26,22 +26,15 @@ export interface UserData {
   name?: string;
 }
 
+// -------------------- REGISTER --------------------
 export const registerUser = async (email: string, password: string, displayName?: string): Promise<UserData> => {
   try {
-    // Validate inputs
-    if (!email || !password) {
-      throw new Error('Email and password are required');
-    }
-
-    // Password strength validation
-    if (password.length < 6) {
-      throw new Error('Password must be at least 6 characters long');
-    }
+    if (!email || !password) throw new Error('Email and password are required');
+    if (password.length < 6) throw new Error('Password must be at least 6 characters long');
 
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    
-    // Create user data object
+
     const userData: UserData = {
       uid: user.uid,
       email: user.email!,
@@ -50,15 +43,13 @@ export const registerUser = async (email: string, password: string, displayName?
       lastLogin: new Date().toISOString(),
     };
 
-    // Save user data to Realtime Database (do not block signup completion)
-    // Fire-and-forget to prevent UI from hanging if the database is unreachable/misconfigured
+    // Fire-and-forget save
     set(ref(db, `users/${user.uid}`), userData).catch((err) => {
       console.error('Failed to save user profile to Realtime Database:', err)
-    })
+    });
 
     return userData;
   } catch (error: any) {
-    // Handle specific Firebase auth errors
     switch (error.code) {
       case 'auth/email-already-in-use':
         throw new Error('An account with this email already exists. Please log in instead.');
@@ -77,41 +68,43 @@ export const registerUser = async (email: string, password: string, displayName?
   }
 };
 
+// -------------------- GET USER DATA --------------------
 export const getUserData = async (uid: string): Promise<UserData | null> => {
   try {
-    const userRef = ref(db, `users/${uid}`);
-    const snapshot = await get(userRef);
-    if (snapshot.exists()) {
-      return snapshot.val() as UserData;
-    }
-    return null;
+    const snapshot = await get(ref(db, `users/${uid}`));
+    return snapshot.exists() ? (snapshot.val() as UserData) : null;
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
 
+// -------------------- UPDATE USER PROFILE --------------------
+export const updateUserProfile = async (uid: string, data: Partial<UserData>) => {
+  try {
+    const userRef = ref(db, `users/${uid}`);
+    await update(userRef, data);
+  } catch (error: any) {
+    console.error("Failed to update user profile:", error);
+    throw new Error(error.message || "Failed to update user profile");
+  }
+};
+
+// -------------------- SIGN IN --------------------
 export const signInUser = async (email: string, password: string): Promise<UserData> => {
   try {
-    // Validate email and password
-    if (!email || !password) {
-      throw new Error('Email and password are required');
-    }
+    if (!email || !password) throw new Error('Email and password are required');
 
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    
+
     // Update last login
-    const updates = {
-      [`/users/${user.uid}/lastLogin`]: new Date().toISOString()
-    };
-    await update(ref(db), updates);
-    
+    await update(ref(db), { [`/users/${user.uid}/lastLogin`]: new Date().toISOString() });
+
     const userData = await getUserData(user.uid);
     if (!userData) throw new Error('User data not found');
-    
+
     return userData;
   } catch (error: any) {
-    // Handle specific Firebase auth errors
     switch (error.code) {
       case 'auth/invalid-credential':
         throw new Error('Invalid email or password. Please check your credentials and try again.');
@@ -132,6 +125,7 @@ export const signInUser = async (email: string, password: string): Promise<UserD
   }
 };
 
+// -------------------- SIGN OUT --------------------
 export const signOutUser = async (): Promise<void> => {
   try {
     await signOut(auth);
@@ -140,7 +134,7 @@ export const signOutUser = async (): Promise<void> => {
   }
 };
 
-// Get current authenticated user
+// -------------------- GET CURRENT USER --------------------
 export const getCurrentUser = (): Promise<User | null> => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged(user => {
