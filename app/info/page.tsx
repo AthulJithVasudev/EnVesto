@@ -110,44 +110,44 @@ function InfoForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white p-4">
-      <Card className="w-full max-w-2xl border border-gray-200 shadow-md rounded-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-envesto-gray-50 dark:bg-neutral-900 p-4 transition-colors">
+      <Card className="w-full max-w-2xl border border-envesto-gray-200 dark:border-neutral-700 dark:bg-neutral-800 shadow-xl rounded-2xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-gray-900">Complete Your Profile</CardTitle>
-          <CardDescription className="text-gray-500">Help us personalize your EnVesto experience</CardDescription>
+          <CardTitle className="text-3xl font-bold text-envesto-navy dark:text-envesto-green">Complete Your Profile</CardTitle>
+          <CardDescription className="text-envesto-gray-600 dark:text-neutral-300">Help us personalize your EnVesto experience</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label className="block font-medium mb-2">Full Name</label>
-                <Input placeholder="Enter your full name" value={formData.name} onChange={(e) => handleInputChange("name", e.target.value)} />
-                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                <label className="block font-medium mb-2 text-envesto-navy dark:text-neutral-100">Full Name</label>
+                <Input placeholder="Enter your full name" value={formData.name} onChange={(e) => handleInputChange("name", e.target.value)} className="rounded-xl h-14 px-4 text-base bg-white dark:bg-neutral-900 border-envesto-gray-200 dark:border-neutral-700" />
+                {errors.name && <p className="text-red-500 text-sm mt-2">{errors.name}</p>}
               </div>
               <div>
-                <label className="block font-medium mb-2">Age</label>
-                <Input type="number" placeholder="Enter your age" value={formData.age} onChange={(e) => handleInputChange("age", e.target.value)} />
-                {errors.age && <p className="text-red-500 text-sm mt-1">{errors.age}</p>}
+                <label className="block font-medium mb-2 text-envesto-navy dark:text-neutral-100">Age</label>
+                <Input type="number" placeholder="Enter your age" value={formData.age} onChange={(e) => handleInputChange("age", e.target.value)} className="rounded-xl h-14 px-4 text-base bg-white dark:bg-neutral-900 border-envesto-gray-200 dark:border-neutral-700" />
+                {errors.age && <p className="text-red-500 text-sm mt-2">{errors.age}</p>}
               </div>
               <div>
-                <label className="block font-medium mb-2">Phone Number</label>
-                <Input placeholder="Enter 10-digit phone number" value={formData.phone} onChange={(e) => handleInputChange("phone", e.target.value)} />
-                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                <label className="block font-medium mb-2 text-envesto-navy dark:text-neutral-100">Phone Number</label>
+                <Input placeholder="Enter 10-digit phone number" value={formData.phone} onChange={(e) => handleInputChange("phone", e.target.value)} className="rounded-xl h-14 px-4 text-base bg-white dark:bg-neutral-900 border-envesto-gray-200 dark:border-neutral-700" />
+                {errors.phone && <p className="text-red-500 text-sm mt-2">{errors.phone}</p>}
               </div>
               <div>
-                <label className="block font-medium mb-2">Job/Profession</label>
-                <Input placeholder="e.g., Freelance Developer, Uber Driver" value={formData.job} onChange={(e) => handleInputChange("job", e.target.value)} />
-                {errors.job && <p className="text-red-500 text-sm mt-1">{errors.job}</p>}
+                <label className="block font-medium mb-2 text-envesto-navy dark:text-neutral-100">Job/Profession</label>
+                <Input placeholder="e.g., Freelance Developer, Uber Driver" value={formData.job} onChange={(e) => handleInputChange("job", e.target.value)} className="rounded-xl h-14 px-4 text-base bg-white dark:bg-neutral-900 border-envesto-gray-200 dark:border-neutral-700" />
+                {errors.job && <p className="text-red-500 text-sm mt-2">{errors.job}</p>}
               </div>
               <div>
-                <label className="block font-medium mb-2">Average Monthly Income (₹)</label>
-                <Input type="number" placeholder="Enter amount in rupees" value={formData.avgMonthlyIncome} onChange={(e) => handleInputChange("avgMonthlyIncome", e.target.value)} />
-                {errors.avgMonthlyIncome && <p className="text-red-500 text-sm mt-1">{errors.avgMonthlyIncome}</p>}
+                <label className="block font-medium mb-2 text-envesto-navy dark:text-neutral-100">Average Monthly Income (₹)</label>
+                <Input type="number" placeholder="Enter amount in rupees" value={formData.avgMonthlyIncome} onChange={(e) => handleInputChange("avgMonthlyIncome", e.target.value)} className="rounded-xl h-14 px-4 text-base bg-white dark:bg-neutral-900 border-envesto-gray-200 dark:border-neutral-700" />
+                {errors.avgMonthlyIncome && <p className="text-red-500 text-sm mt-2">{errors.avgMonthlyIncome}</p>}
               </div>
               <div>
-                <label className="block font-medium mb-2">State</label>
+                <label className="block font-medium mb-2 text-envesto-navy dark:text-neutral-100">State</label>
                 <Select value={formData.state} onValueChange={(value) => handleInputChange("state", value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="rounded-xl h-14 px-4 text-base bg-white dark:bg-neutral-900 border-envesto-gray-200 dark:border-neutral-700">
                     <SelectValue placeholder="Select your state" />
                   </SelectTrigger>
                   <SelectContent>
@@ -156,10 +156,10 @@ function InfoForm() {
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state}</p>}
+                {errors.state && <p className="text-red-500 text-sm mt-2">{errors.state}</p>}
               </div>
             </div>
-            <Button type="submit" disabled={isLoading} className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-xl">
+            <Button type="submit" disabled={isLoading} className="w-full bg-envesto-teal hover:bg-envesto-teal/90 text-white font-semibold py-4 rounded-xl text-lg">
               {isLoading ? "Saving Profile..." : "Complete Profile"}
             </Button>
           </form>
