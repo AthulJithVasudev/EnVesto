@@ -15,7 +15,7 @@ export default function Footer() {
             <ul className="space-y-2 text-envesto-gray-700 dark:text-neutral-300">
               <li><a href="/expense" className="hover:text-envesto-teal">Expense Calculator</a></li>
               <li><a href="/ai" className="hover:text-envesto-teal">EnVesto AI</a></li>
-              <li><a href="/info" className="hover:text-envesto-teal">Learn More</a></li>
+             
               <li><a href="/signup" className="hover:text-envesto-teal">Get Started</a></li>
             </ul>
           </div>

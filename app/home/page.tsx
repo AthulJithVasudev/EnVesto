@@ -116,8 +116,10 @@ export default function HomePage() {
           >
             {(userData?.name || user?.displayName) && (
               <div className="mb-8 text-center">
-                <p className="text-envesto-gray-600">Welcome back,</p>
-                <h2 className="text-2xl font-semibold text-envesto-navy">
+                <p className="text-envesto-gray-600 dark:text-neutral-300">
+                  Welcome back,
+                </p>
+                <h2 className="text-2xl font-semibold text-envesto-navy dark:text-neutral-100">
                   {userData?.name || user?.displayName?.split('@')[0]}!
                 </h2>
               </div>

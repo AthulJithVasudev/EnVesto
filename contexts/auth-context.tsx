@@ -87,16 +87,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const updateProfile = async (profileData: Partial<UserData>) => {
-    if (user && userData) {
+    if (user) {
       try {
+        const baseData = userData || {
+          uid: user.uid,
+          email: user.email || '',
+          displayName: user.displayName || user.email?.split('@')[0] || '',
+          createdAt: new Date().toISOString(),
+          lastLogin: new Date().toISOString(),
+        };
         const updates = {
           [`/users/${user.uid}`]: {
-            ...userData,
+            ...baseData,
             ...profileData
           }
         };
         await update(ref(db), updates);
-        setUserData({ ...userData, ...profileData });
+        setUserData({ ...baseData, ...profileData });
       } catch (error) {
         console.error('Profile update error:', error);
         throw error;
